@@ -16,3 +16,4 @@ env/
 ENV/
 .env.local
 .env.*.local
+.venv/
