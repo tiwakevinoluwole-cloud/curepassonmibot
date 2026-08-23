@@ -16,7 +16,6 @@ class UtilityGenerator:
         if use_special:
             characters += "!@#$%^&*()_+-=[]{}|;:,.<>?"
         
-        # Ensure at least one character from each type
         password = []
         password.append(random.choice(string.ascii_uppercase))
         password.append(random.choice(string.ascii_lowercase))
@@ -24,11 +23,9 @@ class UtilityGenerator:
         if use_special:
             password.append(random.choice("!@#$%^&*()_+-=[]{}|;:,.<>?"))
         
-        # Fill the rest
         for _ in range(length - len(password)):
             password.append(random.choice(characters))
         
-        # Shuffle the password
         random.shuffle(password)
         return ''.join(password)
 
