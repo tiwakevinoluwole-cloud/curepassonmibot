@@ -1,5 +1,5 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes, CommandHandler, CallbackQueryHandler
+from telegram import Update
+from telegram.ext import ContextTypes
 from utils import UtilityGenerator
 import logging
 
@@ -108,7 +108,10 @@ Choose a command to get started, or use /help for more details.
                 use_special = False
         
         password = self.utils.generate_password(length, use_special)
-        await update.message.reply_text(f"🔐 **Generated Password:**\n`{password}`\n\nLength: {length}\nSpecial chars: {'Yes' if use_special else 'No'}", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"🔐 **Generated Password:**\n`{password}`\n\nLength: {length}\nSpecial chars: {'Yes' if use_special else 'No'}",
+            parse_mode='Markdown'
+        )
 
     async def username(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Generate username"""
@@ -119,7 +122,10 @@ Choose a command to get started, or use /help for more details.
                 style = arg
         
         username = self.utils.generate_username(style)
-        await update.message.reply_text(f"👤 **Generated Username:**\n`{username}`\n\nStyle: {style}", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"👤 **Generated Username:**\n`{username}`\n\nStyle: {style}",
+            parse_mode='Markdown'
+        )
 
     async def uuid(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Generate UUID"""
@@ -133,7 +139,10 @@ Choose a command to get started, or use /help for more details.
                 version = 4
         
         uid = self.utils.generate_uuid(version)
-        await update.message.reply_text(f"🆔 **Generated UUID (v{version}):**\n`{uid}`", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"🆔 **Generated UUID (v{version}):**\n`{uid}`",
+            parse_mode='Markdown'
+        )
 
     async def random(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Generate random number"""
@@ -155,7 +164,10 @@ Choose a command to get started, or use /help for more details.
                 pass
         
         number = self.utils.generate_random_number(min_val, max_val)
-        await update.message.reply_text(f"🎲 **Random Number:**\n`{number}`\n\nRange: {min_val} - {max_val}", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"🎲 **Random Number:**\n`{number}`\n\nRange: {min_val} - {max_val}",
+            parse_mode='Markdown'
+        )
 
     async def string(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Generate random string"""
@@ -176,7 +188,10 @@ Choose a command to get started, or use /help for more details.
                 include_special = False
         
         random_string = self.utils.generate_random_string(length, include_special)
-        await update.message.reply_text(f"📝 **Generated Random String:**\n`{random_string}`\n\nLength: {length}\nSpecial chars: {'Yes' if include_special else 'No'}", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"📝 **Generated Random String:**\n`{random_string}`\n\nLength: {length}\nSpecial chars: {'Yes' if include_special else 'No'}",
+            parse_mode='Markdown'
+        )
 
     async def hash(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Generate hash"""
@@ -196,12 +211,17 @@ Choose a command to get started, or use /help for more details.
             text = " ".join(parts[:-1])
         
         hash_value = self.utils.generate_hash(text, algorithm)
-        await update.message.reply_text(f"🔐 **Hash Generated:**\nAlgorithm: {algorithm}\nText: `{text}`\nHash: `{hash_value}`", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"🔐 **Hash Generated:**\nAlgorithm: {algorithm}\nText: `{text}`\nHash: `{hash_value}`",
+            parse_mode='Markdown'
+        )
 
     async def base64(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Base64 encode/decode"""
         if not context.args or len(context.args) < 2:
-            await update.message.reply_text("❌ Please specify operation and text.\nExample: `/base64 encode Hello`\nExample: `/base64 decode SGVsbG8=`")
+            await update.message.reply_text(
+                "❌ Please specify operation and text.\nExample: `/base64 encode Hello`\nExample: `/base64 decode SGVsbG8=`"
+            )
             return
         
         operation = context.args[0].lower()
@@ -209,20 +229,28 @@ Choose a command to get started, or use /help for more details.
         
         if operation == 'encode':
             result = self.utils.base64_encode(text)
-            await update.message.reply_text(f"📦 **Base64 Encoded:**\nOriginal: `{text}`\nEncoded: `{result}`", parse_mode='Markdown')
+            await update.message.reply_text(
+                f"📦 **Base64 Encoded:**\nOriginal: `{text}`\nEncoded: `{result}`",
+                parse_mode='Markdown'
+            )
         elif operation == 'decode':
             result = self.utils.base64_decode(text)
             if result is None:
                 await update.message.reply_text("❌ Invalid Base64 string provided.")
             else:
-                await update.message.reply_text(f"📦 **Base64 Decoded:**\nEncoded: `{text}`\nDecoded: `{result}`", parse_mode='Markdown')
+                await update.message.reply_text(
+                    f"📦 **Base64 Decoded:**\nEncoded: `{text}`\nDecoded: `{result}`",
+                    parse_mode='Markdown'
+                )
         else:
             await update.message.reply_text("❌ Invalid operation. Use `encode` or `decode`.")
 
     async def url(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """URL encode/decode"""
         if not context.args or len(context.args) < 2:
-            await update.message.reply_text("❌ Please specify operation and text.\nExample: `/url encode Hello World`\nExample: `/url decode Hello%20World`")
+            await update.message.reply_text(
+                "❌ Please specify operation and text.\nExample: `/url encode Hello World`\nExample: `/url decode Hello%20World`"
+            )
             return
         
         operation = context.args[0].lower()
@@ -230,13 +258,19 @@ Choose a command to get started, or use /help for more details.
         
         if operation == 'encode':
             result = self.utils.url_encode(text)
-            await update.message.reply_text(f"🔗 **URL Encoded:**\nOriginal: `{text}`\nEncoded: `{result}`", parse_mode='Markdown')
+            await update.message.reply_text(
+                f"🔗 **URL Encoded:**\nOriginal: `{text}`\nEncoded: `{result}`",
+                parse_mode='Markdown'
+            )
         elif operation == 'decode':
             result = self.utils.url_decode(text)
             if result is None:
                 await update.message.reply_text("❌ Invalid URL encoded string provided.")
             else:
-                await update.message.reply_text(f"🔗 **URL Decoded:**\nEncoded: `{text}`\nDecoded: `{result}`", parse_mode='Markdown')
+                await update.message.reply_text(
+                    f"🔗 **URL Decoded:**\nEncoded: `{text}`\nDecoded: `{result}`",
+                    parse_mode='Markdown'
+                )
         else:
             await update.message.reply_text("❌ Invalid operation. Use `encode` or `decode`.")
 
@@ -257,4 +291,7 @@ Choose a command to get started, or use /help for more details.
             'readable': 'Human Readable'
         }
         
-        await update.message.reply_text(f"⏰ **Timestamp Generated:**\nFormat: {format_names.get(format_type, format_type)}\n`{timestamp}`", parse_mode='Markdown')
+        await update.message.reply_text(
+            f"⏰ **Timestamp Generated:**\nFormat: {format_names.get(format_type, format_type)}\n`{timestamp}`",
+            parse_mode='Markdown'
+        )
